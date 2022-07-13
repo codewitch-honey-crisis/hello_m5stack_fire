@@ -33,7 +33,7 @@ using bus_t = tft_spi_ex<spi_host,
                         -1, 
                         spi_pin_clk, 
                         SPI_MODE0,
-                        false, 
+                        true, 
                         320 * 240 * 2 + 8, 2>;
 
 using lcd_t = ili9342c<lcd_pin_dc, 
@@ -42,7 +42,7 @@ using lcd_t = ili9342c<lcd_pin_dc,
                       bus_t, 
                       1, 
                       true, 
-                      400>;
+                      400,200>;
 
 using color_t = color<typename lcd_t::pixel_type>;
 
