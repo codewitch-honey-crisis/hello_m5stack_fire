@@ -54,7 +54,7 @@ mpu6886 gyro(i2c_container<0>::instance());
 // the following is equiv at least on the ESP32
 // mpu6886 mpu(Wire);
 
-w2812 led_strips(10,led_pin,NEO_GBR);
+w2812 led_strips({5,2},led_pin,NEO_GBR);
 
 button<button_a_pin,10,true> button_a;
 button<button_b_pin,10,true> button_b;
@@ -226,8 +226,10 @@ void loop() {
         // suspend so we update all at once on resume
         draw::suspend(led_strips);
         // update each color
-        for(int x = 0;x<led_strips.dimensions().width;++x) {
-            draw::point(led_strips,point16(x,0),colors[(led_strip_offset+x)%color_count]);
+        for(int y = 0;y<led_strips.dimensions().height;++y) {
+            for(int x = 0;x<led_strips.dimensions().width;++x) {
+                draw::point(led_strips,point16(x,y),colors[(led_strip_offset+(x+(y*led_strips.dimensions().width)))%color_count]);
+            }
         }
         // finally, refresh the strips
         draw::resume(led_strips);
