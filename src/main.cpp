@@ -44,6 +44,7 @@ using lcd_t = ili9342c<lcd_pin_dc,
                       true, 
                       400,200>;
 
+using lscolor_t = color<typename w2812::pixel_type>;
 using color_t = color<typename lcd_t::pixel_type>;
 
 lcd_t lcd;
@@ -65,6 +66,7 @@ void initialize_m5stack_fire() {
     Serial.begin(115200);
     SPIFFS.begin(false);
     SD.begin(4,spi_container<spi_host>::instance());
+    led_strips.fill(led_strips.bounds(),lscolor_t::purple);
     lcd.fill(lcd.bounds(),color_t::purple);
     rect16 rect(0,0,64,64);
     rect.center_inplace(lcd.bounds());
@@ -78,7 +80,6 @@ void initialize_m5stack_fire() {
     button_a.initialize();
     button_b.initialize();
     button_c.initialize();
-    lcd.fill(lcd.bounds(),color_t::black);
 }
 
 const char* text = "hello!";
